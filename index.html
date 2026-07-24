@@ -30,7 +30,7 @@
       </a>
 
       <ul class="nav-links">
-        <li><a href="#simulator">Architecture Sim</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#portfolio">Case Studies</a></li>
         <li><a href="#roi-calculator">Cloud ROI</a></li>
@@ -57,7 +57,7 @@
           Piper Software Solutions LLC crafts ultra-fast microservices, real-time spatial query engines, distributed event pipelines, and cloud cost optimizations for technology leaders.
         </p>
         <div class="hero-ctas">
-          <a href="#simulator" class="btn btn-primary">Test Live System Simulator</a>
+          <a href="#tech-stack" class="btn btn-primary">Explore Tech Stack</a>
           <a href="#portfolio" class="btn btn-secondary">Explore Featured Projects</a>
         </div>
 
@@ -112,49 +112,121 @@
     </div>
   </section>
 
-  <!-- Interactive System Architecture Visualizer -->
-  <section id="simulator">
+  <!-- Interactive Tech Stack & Capabilities Matrix Section -->
+  <section id="tech-stack">
     <div class="container">
-      <div class="section-badge">Interactive Simulation Engine</div>
-      <h2 class="section-title">Live System Architecture <span class="gradient-text">Stress Simulator</span></h2>
-      <p class="section-subtitle">Observe how Piper's high-concurrency microservice pipeline handles variable packet loads, failovers, and auto-scaling events in real time.</p>
+      <div class="section-badge">Battle-Tested Technologies</div>
+      <h2 class="section-title">Enterprise Tech Stack & <span class="gradient-text">Architecture Matrix</span></h2>
+      <p class="section-subtitle">We leverage high-performance languages, distributed storage engines, cloud-native orchestrators, and real-time streaming tools.</p>
 
-      <div class="architecture-container">
-        <div class="architecture-toolbar">
-          <div class="toolbar-group">
-            <span class="toolbar-label">Traffic Load:</span>
-            <button class="sim-btn active" data-load="normal">Standard (5k/s)</button>
-            <button class="sim-btn" data-load="spike">Flash Spike (50k/s)</button>
-            <button class="sim-btn" data-load="extreme">Cyber Monday (200k/s)</button>
-          </div>
+      <!-- Category Filter Tabs -->
+      <div class="stack-filter-tabs">
+        <button class="stack-tab active" data-category="all">All Stack</button>
+        <button class="stack-tab" data-category="backend">Backend & APIs</button>
+        <button class="stack-tab" data-category="database">Databases & Caching</button>
+        <button class="stack-tab" data-category="cloud">Cloud & DevOps</button>
+        <button class="stack-tab" data-category="streaming">Event Streaming</button>
+      </div>
 
-          <div class="toolbar-group">
-            <span class="toolbar-label">Chaos Injection:</span>
-            <button class="sim-btn danger" id="simKillDb">Kill DB Node</button>
-            <button class="sim-btn danger" id="simClearCache">Flush Cache</button>
-            <button class="sim-btn" id="simReset">Reset Topology</button>
+      <!-- Tech Stack Cards Grid -->
+      <div class="tech-grid" id="techGrid">
+        <!-- Python FastAPI -->
+        <div class="tech-card" data-category="backend">
+          <div class="tech-card-header">
+            <div class="tech-icon">🐍</div>
+            <span class="tag">Backend</span>
           </div>
+          <h3>Python FastAPI</h3>
+          <p>Asynchronous, high-throughput REST APIs with automatic OpenAPI specs and Pydantic data validation.</p>
+          <div class="tech-metric">&lt; 15ms Latency • Async Native</div>
         </div>
 
-        <canvas id="architectureCanvas"></canvas>
+        <!-- Go (Golang) -->
+        <div class="tech-card" data-category="backend">
+          <div class="tech-card-header">
+            <div class="tech-icon">🐹</div>
+            <span class="tag">Backend</span>
+          </div>
+          <h3>Go (Golang)</h3>
+          <p>Compiled, hyper-concurrent microservices, gRPC internal services, and low-memory daemon systems.</p>
+          <div class="tech-metric">100k+ req/s • Lightweight Threads</div>
+        </div>
 
-        <div class="canvas-telemetry">
-          <div class="telemetry-cell">
-            <div class="telemetry-cell-val" id="simRps">5,000</div>
-            <div class="telemetry-cell-lbl">Requests / Sec</div>
+        <!-- PostgreSQL -->
+        <div class="tech-card" data-category="database">
+          <div class="tech-card-header">
+            <div class="tech-icon">🐘</div>
+            <span class="tag">Database</span>
           </div>
-          <div class="telemetry-cell">
-            <div class="telemetry-cell-val" id="simLatency">11.2 ms</div>
-            <div class="telemetry-cell-lbl">p99 Median Latency</div>
+          <h3>PostgreSQL & PostGIS</h3>
+          <p>ACID-compliant relational database, connection pooling (PgBouncer), horizontal read replicas, and spatial queries.</p>
+          <div class="tech-metric">Sharded Schemas • Sub-5ms Queries</div>
+        </div>
+
+        <!-- Redis -->
+        <div class="tech-card" data-category="database">
+          <div class="tech-card-header">
+            <div class="tech-icon">⚡</div>
+            <span class="tag">Caching</span>
           </div>
-          <div class="telemetry-cell">
-            <div class="telemetry-cell-val" id="simHitRatio">99.2%</div>
-            <div class="telemetry-cell-lbl">Redis Hit Ratio</div>
+          <h3>Redis Cluster</h3>
+          <p>In-memory data structures, L2 caching layers, distributed locking (Redlock), and rate-limiting middleware.</p>
+          <div class="tech-metric">Sub-1ms Latency • 99.9% Cache Hits</div>
+        </div>
+
+        <!-- Firebase Firestore -->
+        <div class="tech-card" data-category="database">
+          <div class="tech-card-header">
+            <div class="tech-icon">🔥</div>
+            <span class="tag">Database</span>
           </div>
-          <div class="telemetry-cell">
-            <div class="telemetry-cell-val" id="simReplicas">12 Pods</div>
-            <div class="telemetry-cell-lbl">Kubernetes Scaling</div>
+          <h3>Firebase Firestore</h3>
+          <p>Real-time document synchronization, atomic geospatial indexing, and reactive client event listeners.</p>
+          <div class="tech-metric">Realtime Sync • Zero Offline Lag</div>
+        </div>
+
+        <!-- AWS Cloud -->
+        <div class="tech-card" data-category="cloud">
+          <div class="tech-card-header">
+            <div class="tech-icon">☁️</div>
+            <span class="tag">Cloud</span>
           </div>
+          <h3>AWS Ecosystem</h3>
+          <p>EKS (Kubernetes), Lambda (Serverless), Aurora Postgres, DynamoDB, CloudFront, Route53, and IAM security automation.</p>
+          <div class="tech-metric">60% Cost Reduction Target</div>
+        </div>
+
+        <!-- Kubernetes -->
+        <div class="tech-card" data-category="cloud">
+          <div class="tech-card-header">
+            <div class="tech-icon">☸️</div>
+            <span class="tag">Orchestration</span>
+          </div>
+          <h3>Kubernetes (EKS/GKE)</h3>
+          <p>Container orchestration, Horizontal Pod Autoscaling (HPA), zero-downtime blue/green deployments, and Helm charts.</p>
+          <div class="tech-metric">Auto-scaling • High Availability</div>
+        </div>
+
+        <!-- Terraform -->
+        <div class="tech-card" data-category="cloud">
+          <div class="tech-card-header">
+            <div class="tech-icon">🏗️</div>
+            <span class="tag">IaC</span>
+          </div>
+          <h3>Terraform & Pulumi</h3>
+          <p>Infrastructure as Code for deterministic, reproducible, multi-region cloud provisioning and compliance auditing.</p>
+          <div class="tech-metric">100% Declarative Config</div>
+        </div>
+
+        <!-- Apache Kafka -->
+        <div class="tech-card" data-category="streaming">
+          <div class="tech-card-header">
+            <div class="tech-icon">🛰️</div>
+            <span class="tag">Event Stream</span>
+          </div>
+          <h3>Apache Kafka & NATS</h3>
+          <p>Distributed pub/sub event streaming pipelines for real-time telemetry processing and asynchronous event queues.</p>
+          <div class="tech-metric">Millions Events/Sec</div>
         </div>
       </div>
     </div>
@@ -568,7 +640,7 @@
         </div>
 
         <div style="display:flex; gap:24px; color:var(--text-muted); font-size:0.9rem;">
-          <a href="#simulator" style="color:var(--text-muted); text-decoration:none;">Architecture Sim</a>
+          <a href="#tech-stack" style="color:var(--text-muted); text-decoration:none;">Tech Stack</a>
           <a href="#services" style="color:var(--text-muted); text-decoration:none;">Services</a>
           <a href="#portfolio" style="color:var(--text-muted); text-decoration:none;">Case Studies</a>
           <a href="mailto:pipersoftwaresolution87@gmail.com" style="color:var(--accent-green); text-decoration:none;">pipersoftwaresolution87@gmail.com</a>

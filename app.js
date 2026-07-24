@@ -1,11 +1,11 @@
 /* 
   Piper Software Solutions LLC - Core Application JavaScript
-  Includes: Interactive System Canvas, Cloud ROI Calculator, API Sandbox, CLI Terminal, Telemetry Tickers
+  Includes: Interactive Tech Stack Matrix, Cloud ROI Calculator, API Sandbox, CLI Terminal, Telemetry Tickers
 */
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeroTelemetry();
-  initArchitectureCanvas();
+  initTechStackFilter();
   initCloudCalculator();
   initApiSandbox();
   initTerminalCli();
@@ -36,213 +36,33 @@ function initHeroTelemetry() {
 }
 
 /* ----------------------------------------------------
-   2. INTERACTIVE ARCHITECTURE CANVAS & STRESS SIMULATOR
+   2. INTERACTIVE TECH STACK MATRIX FILTER
 ---------------------------------------------------- */
-function initArchitectureCanvas() {
-  const canvas = document.getElementById('architectureCanvas');
-  if (!canvas) return;
+function initTechStackFilter() {
+  const tabs = document.querySelectorAll('.stack-tab');
+  const cards = document.querySelectorAll('.tech-card');
 
-  const ctx = canvas.getContext('2d');
+  if (!tabs.length) return;
 
-  function resizeCanvas() {
-    canvas.width = canvas.parentElement.clientWidth;
-    canvas.height = 480;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-  let currentLoad = 'normal';
-  let dbStatus = 'healthy';
-  let cacheStatus = 'healthy';
-  
-  const loadConfig = {
-    normal: { rps: '5,000', latency: '11.2 ms', hitRatio: '99.2%', pods: '12 Pods', packetSpeed: 3, packetDensity: 4 },
-    spike: { rps: '50,000', latency: '16.8 ms', hitRatio: '97.8%', pods: '48 Pods', packetSpeed: 6, packetDensity: 12 },
-    extreme: { rps: '200,000', latency: '24.5 ms', hitRatio: '94.5%', pods: '120 Pods', packetSpeed: 9, packetDensity: 24 }
-  };
+      const cat = tab.getAttribute('data-category');
 
-  const nodes = [
-    { id: 'client', label: 'Client GPS Stream', sub: 'Leaflet.js/GeoLocation', xRatio: 0.1, yRatio: 0.5, color: '#00f2fe' },
-    { id: 'gateway', label: 'API Gateway', sub: 'FastAPI Router', xRatio: 0.28, yRatio: 0.5, color: '#00e676' },
-    { id: 'app1', label: 'Spatial Engine', sub: 'Haversine Evaluator', xRatio: 0.5, yRatio: 0.25, color: '#3b82f6' },
-    { id: 'app2', label: 'Backend API', sub: 'Python/FastAPI', xRatio: 0.5, yRatio: 0.5, color: '#3b82f6' },
-    { id: 'app3', label: 'Worker Cluster', sub: 'K8s Replicas', xRatio: 0.5, yRatio: 0.75, color: '#3b82f6' },
-    { id: 'redis', label: 'Redis L2 Cache', sub: 'Sub-1ms Tier', xRatio: 0.72, yRatio: 0.32, color: '#f59e0b' },
-    { id: 'kafka', label: 'Kafka Event Bus', sub: 'Spatial Stream', xRatio: 0.72, yRatio: 0.68, color: '#8b5cf6' },
-    { id: 'db', label: 'Firebase Firestore', sub: 'NoSQL Collection', xRatio: 0.9, yRatio: 0.5, color: '#00e676' }
-  ];
-
-  const connections = [
-    { from: 'client', to: 'gateway' },
-    { from: 'gateway', to: 'app1' },
-    { from: 'gateway', to: 'app2' },
-    { from: 'gateway', to: 'app3' },
-    { from: 'app1', to: 'redis' },
-    { from: 'app2', to: 'redis' },
-    { from: 'app2', to: 'db' },
-    { from: 'app3', to: 'kafka' },
-    { from: 'redis', to: 'db' },
-    { from: 'kafka', to: 'db' }
-  ];
-
-  let packets = [];
-
-  function createPacket(conn) {
-    return {
-      fromId: conn.from,
-      toId: conn.to,
-      progress: 0,
-      speed: (0.005 + Math.random() * 0.004) * loadConfig[currentLoad].packetSpeed
-    };
-  }
-
-  function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const w = canvas.width;
-    const h = canvas.height;
-
-    ctx.lineWidth = 2;
-    connections.forEach(conn => {
-      const fromNode = nodes.find(n => n.id === conn.from);
-      const toNode = nodes.find(n => n.id === conn.to);
-
-      ctx.beginPath();
-      ctx.moveTo(fromNode.xRatio * w, fromNode.yRatio * h);
-      ctx.lineTo(toNode.xRatio * w, toNode.yRatio * h);
-
-      if (conn.to === 'db' && dbStatus === 'failing') {
-        ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
-        ctx.setLineDash([4, 4]);
-      } else if (conn.to === 'redis' && cacheStatus === 'purged') {
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
-        ctx.setLineDash([4, 4]);
-      } else {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-        ctx.setLineDash([]);
-      }
-      ctx.stroke();
-      ctx.setLineDash([]);
-    });
-
-    const targetPacketCount = loadConfig[currentLoad].packetDensity * connections.length;
-    while (packets.length < targetPacketCount) {
-      const randomConn = connections[Math.floor(Math.random() * connections.length)];
-      packets.push(createPacket(randomConn));
-    }
-
-    packets.forEach((p, idx) => {
-      p.progress += p.speed;
-      if (p.progress >= 1) {
-        const randomConn = connections[Math.floor(Math.random() * connections.length)];
-        packets[idx] = createPacket(randomConn);
-        return;
-      }
-
-      const fromNode = nodes.find(n => n.id === p.fromId);
-      const toNode = nodes.find(n => n.id === p.toId);
-
-      const px = fromNode.xRatio * w + (toNode.xRatio * w - fromNode.xRatio * w) * p.progress;
-      const py = fromNode.yRatio * h + (toNode.yRatio * h - fromNode.yRatio * h) * p.progress;
-
-      ctx.beginPath();
-      ctx.arc(px, py, 4, 0, Math.PI * 2);
-      ctx.fillStyle = (p.toId === 'db' && dbStatus === 'failing') ? '#ef4444' : '#00e676';
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = ctx.fillStyle;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    });
-
-    nodes.forEach(node => {
-      const nx = node.xRatio * w;
-      const ny = node.yRatio * h;
-
-      let nodeColor = node.color;
-      if (node.id === 'db' && dbStatus === 'failing') nodeColor = '#ef4444';
-      if (node.id === 'redis' && cacheStatus === 'purged') nodeColor = '#f59e0b';
-
-      ctx.beginPath();
-      ctx.roundRect(nx - 75, ny - 28, 150, 56, 12);
-      ctx.fillStyle = 'rgba(13, 24, 38, 0.9)';
-      ctx.strokeStyle = nodeColor;
-      ctx.lineWidth = 1.5;
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.font = '600 13px Outfit, sans-serif';
-      ctx.fillStyle = '#ffffff';
-      ctx.textAlign = 'center';
-      ctx.fillText(node.label, nx, ny - 4);
-
-      ctx.font = '500 10px "JetBrains Mono", monospace';
-      ctx.fillStyle = nodeColor;
-      ctx.fillText(node.sub, nx, ny + 14);
-    });
-
-    requestAnimationFrame(render);
-  }
-
-  render();
-
-  document.querySelectorAll('.sim-btn[data-load]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      document.querySelectorAll('.sim-btn[data-load]').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      currentLoad = btn.getAttribute('data-load');
-      const cfg = loadConfig[currentLoad];
-
-      document.getElementById('simRps').textContent = cfg.rps;
-      document.getElementById('simLatency').textContent = cfg.latency;
-      document.getElementById('simHitRatio').textContent = cfg.hitRatio;
-      document.getElementById('simReplicas').textContent = cfg.pods;
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (cat === 'all' || cardCat === cat) {
+          card.style.display = 'flex';
+          card.style.opacity = '1';
+        } else {
+          card.style.display = 'none';
+          card.style.opacity = '0';
+        }
+      });
     });
   });
-
-  const simKillDbBtn = document.getElementById('simKillDb');
-  if (simKillDbBtn) {
-    simKillDbBtn.addEventListener('click', () => {
-      dbStatus = 'failing';
-      document.getElementById('simLatency').textContent = '142.5 ms (Failover)';
-      document.getElementById('simLatency').style.color = '#ef4444';
-
-      setTimeout(() => {
-        dbStatus = 'healthy';
-        document.getElementById('simLatency').style.color = 'var(--accent-green)';
-        document.getElementById('simLatency').textContent = loadConfig[currentLoad].latency;
-      }, 3500);
-    });
-  }
-
-  const simClearCacheBtn = document.getElementById('simClearCache');
-  if (simClearCacheBtn) {
-    simClearCacheBtn.addEventListener('click', () => {
-      cacheStatus = 'purged';
-      document.getElementById('simHitRatio').textContent = '0.0% (Cold)';
-      document.getElementById('simHitRatio').style.color = '#f59e0b';
-
-      setTimeout(() => {
-        cacheStatus = 'healthy';
-        document.getElementById('simHitRatio').style.color = 'var(--accent-green)';
-        document.getElementById('simHitRatio').textContent = loadConfig[currentLoad].hitRatio;
-      }, 3000);
-    });
-  }
-
-  const simResetBtn = document.getElementById('simReset');
-  if (simResetBtn) {
-    simResetBtn.addEventListener('click', () => {
-      dbStatus = 'healthy';
-      cacheStatus = 'healthy';
-      document.getElementById('simLatency').style.color = 'var(--accent-green)';
-      document.getElementById('simHitRatio').style.color = 'var(--accent-green)';
-      const cfg = loadConfig[currentLoad];
-      document.getElementById('simRps').textContent = cfg.rps;
-      document.getElementById('simLatency').textContent = cfg.latency;
-      document.getElementById('simHitRatio').textContent = cfg.hitRatio;
-    });
-  }
 }
 
 /* ----------------------------------------------------
@@ -443,6 +263,7 @@ function initTerminalCli() {
           appendLine(`
 Available Piper CLI Commands:
   <span style="color:#fff;">services</span>       - List core backend & cloud capabilities
+  <span style="color:#fff;">stack</span>          - View enterprise tech stack matrix
   <span style="color:#fff;">portfolio</span>      - View featured GeoTask open-source repository
   <span style="color:#fff;">location-todo</span>  - Technical analysis & Haversine math for GeoTask
   <span style="color:#fff;">audit</span>          - Request direct technical architecture review
@@ -459,6 +280,16 @@ Available Piper CLI Commands:
 3. Cloud Cost & Billing Optimization (Avg 60% Reduction)
 4. Spatial & Realtime Telemetry Engines (Geofencing, Firestore, Haversine Math)
 5. Database Sharding & High Availability (Postgres, Redis)
+          `);
+          break;
+
+        case 'stack':
+          appendLine(`
+<span style="color:var(--accent-green);">ENTERPRISE TECH STACK:</span>
+- Backend: Python FastAPI, Go, Rust, Node.js
+- Databases: PostgreSQL, Redis, Firestore, ClickHouse
+- Cloud: AWS, GCP, Kubernetes (EKS/GKE), Terraform
+- Streaming: Apache Kafka, NATS, Redis Streams
           `);
           break;
 

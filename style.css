@@ -407,94 +407,94 @@ header {
   font-weight: 600;
 }
 
-/* Architecture Visualizer Section */
-.architecture-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  position: relative;
-}
-
-.architecture-toolbar {
+/* Interactive Tech Stack Matrix Section */
+.stack-filter-tabs {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  background: rgba(14, 28, 46, 0.9);
-  border-bottom: 1px solid var(--border-light);
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.toolbar-group {
-  display: flex;
-  align-items: center;
   gap: 12px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
 }
 
-.toolbar-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.sim-btn {
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.05);
+.stack-tab {
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-light);
-  color: var(--text-main);
-  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition-fast);
 }
 
-.sim-btn:hover, .sim-btn.active {
+.stack-tab:hover, .stack-tab.active {
   background: var(--accent-green-glow);
   border-color: var(--accent-green);
   color: var(--accent-green);
 }
 
-.sim-btn.danger:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: #ef4444;
-  color: #ef4444;
-}
-
-#architectureCanvas {
-  width: 100%;
-  height: 480px;
-  display: block;
-  background: #060b12;
-}
-
-.canvas-telemetry {
+.tech-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border-light);
-  border-top: 1px solid var(--border-light);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
-.telemetry-cell {
+.tech-card {
   background: var(--bg-card);
-  padding: 16px 24px;
-  text-align: center;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.telemetry-cell-val {
+.tech-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-glow);
+  background: var(--bg-card-hover);
+}
+
+.tech-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.tech-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 230, 118, 0.1);
+  border: 1px solid var(--border-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--accent-green);
-  font-family: var(--font-mono);
 }
 
-.telemetry-cell-lbl {
-  font-size: 0.75rem;
+.tech-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.tech-card p {
   color: var(--text-muted);
-  text-transform: uppercase;
-  margin-top: 4px;
+  font-size: 0.92rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.tech-metric {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+  font-weight: 600;
 }
 
 /* Portfolio & Case Studies Section */
@@ -1082,6 +1082,7 @@ footer {
   .hero-content { grid-template-columns: 1fr; }
   .portfolio-card.featured { grid-template-columns: 1fr; }
   .portfolio-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .calc-card { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
@@ -1091,8 +1092,8 @@ footer {
   .nav-links { display: none; }
   .hero-text h1 { font-size: 2.5rem; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .tech-grid { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: 1fr; }
-  .canvas-telemetry { grid-template-columns: repeat(2, 1fr); }
   .sandbox-body { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
