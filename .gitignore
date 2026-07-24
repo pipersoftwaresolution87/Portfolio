@@ -1,0 +1,8 @@
+# Logs & Temp
+*.log
+.DS_Store
+
+# Dependencies & Build
+node_modules/
+dist/
+.venv/
