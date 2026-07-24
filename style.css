@@ -497,7 +497,7 @@ header {
   font-weight: 600;
 }
 
-/* Portfolio & Case Studies Section - Uncropped Full Screenshot Display */
+/* Portfolio & Case Studies Section - Razor-Sharp 1:1 Pixel Native Display */
 .portfolio-grid {
   display: flex;
   flex-direction: column;
@@ -515,7 +515,7 @@ header {
 }
 
 .portfolio-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: var(--border-accent);
   box-shadow: var(--shadow-glow);
 }
@@ -528,9 +528,9 @@ header {
 .portfolio-img-wrapper {
   position: relative;
   width: 100%;
-  background: #04080e;
+  background: #03060b;
   border-bottom: 1px solid var(--border-light);
-  padding: 12px;
+  padding: 24px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -538,31 +538,34 @@ header {
 
 .portfolio-card.featured .portfolio-img-wrapper {
   width: 100%;
-  max-height: 620px;
 }
 
 .portfolio-img-wrapper img {
+  max-width: 1024px;
   width: 100%;
   height: auto;
-  max-height: 600px;
   object-fit: contain;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-accent);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition: transform 0.4s ease;
 }
 
 .portfolio-card:hover .portfolio-img-wrapper img {
-  transform: scale(1.01);
+  transform: scale(1.008);
 }
 
 .portfolio-badge {
   position: absolute;
-  top: 24px;
+  top: 20px;
   left: 24px;
   padding: 6px 16px;
   border-radius: var(--radius-full);
-  background: rgba(8, 16, 26, 0.9);
+  background: rgba(8, 16, 26, 0.92);
   border: 1px solid var(--border-accent);
   color: var(--accent-green);
   font-size: 0.8rem;
