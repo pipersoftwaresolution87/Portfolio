@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timezone
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-KEY_PATH = os.path.join(BASE_DIR, "portfolio.json")
+KEY_PATH = os.path.join(BASE_DIR, "key.json")
 
 def get_DB():
     if not os.path.exists(KEY_PATH):
