@@ -1,6 +1,8 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import os
+import uuid
+from datetime import datetime, timezone
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 KEY_PATH = os.path.join(BASE_DIR, "portfolio.json")
@@ -19,10 +21,18 @@ db = get_DB()
 Collection_Name = "userinquires"
 
 def createuserinquiry(userinquiry: dict) -> dict:
-    collection_ref = db.collection(Collection_Name)
-    # collection_ref.add() returns a tuple: (update_time, doc_ref)
-    update_time, doc_ref = collection_ref.add(userinquiry)
-    return {
-        "id": doc_ref.id,
+    # Explicitly generate a unique document ID for every inquiry
+    inquiry_id = f"inquiry_{uuid.uuid4().hex[:12]}"
+    
+    # Add id and timestamp into the saved document
+    payload = {
+        "id": inquiry_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
         **userinquiry
     }
+    
+    # Save as a distinct new document in Firestore
+    doc_ref = db.collection(Collection_Name).document(inquiry_id)
+    doc_ref.set(payload)
+    
+    return payload
