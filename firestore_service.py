@@ -18,7 +18,7 @@ def get_DB():
     return firestore.client()
 
 db = get_DB()
-Collection_Name = "userinquires"
+Collection_Name = "userinquiries"
 
 def createuserinquiry(userinquiry: dict) -> dict:
     # Explicitly generate a unique document ID for every inquiry
