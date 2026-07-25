@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 import os
 
 from model import UserQuery
 from firestore_service import createuserinquiry
 
-app = FastAPI(title="Piper Software Solutions LLC")
+app = FastAPI(title="Piper Software Solutions LLC API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,6 +14,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def root():
+    return {"status": "Piper Software Solutions LLC API is active"}
 
 @app.post("/api/inquiry")
 async def posttofirestore(userquery: UserQuery):
@@ -29,6 +32,3 @@ async def posttofirestore(userquery: UserQuery):
     except Exception as e:
         print(f"Error saving query: {str(e)}")
         return {"message": f"Internal server error: {str(e)}", "status": "error"}
-
-# Serve all static files (index.html, style.css, app.js, assets/ images)
-app.mount("/", StaticFiles(directory=".", html=True), name="static")

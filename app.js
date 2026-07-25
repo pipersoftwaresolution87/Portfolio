@@ -346,6 +346,16 @@ function initContactForm() {
   const submitBtn = document.getElementById('submitContactBtn');
   if (!submitBtn) return;
 
+  const isLocalhost = Boolean(
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname === ''
+  );
+
+  const API_ENDPOINT = isLocalhost
+    ? '/api/inquiry'
+    : 'https://portfolio-z9sz.onrender.com/api/inquiry';
+
   submitBtn.addEventListener('click', async (e) => {
     e.preventDefault();
 
@@ -371,7 +381,7 @@ function initContactForm() {
     submitBtn.disabled = true;
 
     try {
-      const response = await fetch('/api/inquiry', {
+      const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
