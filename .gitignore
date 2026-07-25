@@ -1,6 +1,18 @@
+# Python Cache
+__pycache__/
+*.pyc
+
 # Logs & Temp
 *.log
 .DS_Store
+
+# Credentials & Secrets
+portfolio.json
+firebase_key.json
+*.json
+!.eslintrc.json
+!package.json
+.env
 
 # Dependencies & Build
 node_modules/

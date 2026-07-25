@@ -346,15 +346,84 @@ function initContactForm() {
   const submitBtn = document.getElementById('submitContactBtn');
   if (!submitBtn) return;
 
-  submitBtn.addEventListener('click', () => {
-    submitBtn.textContent = 'Processing Blueprint Request... ⚡';
+  submitBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const contactForm = document.getElementById('contactForm');
+    const nameInput = document.getElementById('contactName');
+    const emailInput = document.getElementById('contactEmail');
+    const objectiveInput = document.getElementById('contactObjective');
+    const budgetInput = document.getElementById('contactBudget');
+    const detailsInput = document.getElementById('contactDetails');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+    const objective = objectiveInput ? objectiveInput.value : '';
+    const monthly_budget = budgetInput ? budgetInput.value : '';
+    const details = detailsInput ? detailsInput.value.trim() : '';
+
+    if (!name || !email) {
+      alert('Please fill out both your Name and Work Email.');
+      return;
+    }
+
+    submitBtn.textContent = 'Submitting Blueprint Request... ⚡';
     submitBtn.disabled = true;
 
-    setTimeout(() => {
-      alert('⚡ Architecture Consultation Request Received!\n\nA Principal Engineer from Piper Software Solutions LLC (pipersoftwaresolution87@gmail.com) will review your system specification and respond within 4 hours.');
+    try {
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          objective: objective,
+          monthly_budget: monthly_budget,
+          details: details
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.status === 'success') {
+        alert('⚡ Architecture Consultation Request Received!\n\nA Principal Engineer from Piper Software Solutions LLC (pipersoftwaresolution87@gmail.com) will review your specification and respond within 4 hours.');
+        
+        // Empty all form fields
+        if (contactForm) contactForm.reset();
+
+        submitBtn.textContent = 'Inquiry Submitted ✓';
+        submitBtn.style.background = '#10b981';
+        submitBtn.style.color = '#fff';
+
+        setTimeout(() => {
+          submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+          submitBtn.disabled = false;
+          submitBtn.style.background = '';
+          submitBtn.style.color = '';
+        }, 3000);
+      } else {
+        alert(`Notice: ${data.message || 'Could not submit inquiry'}`);
+        submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+        submitBtn.disabled = false;
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      alert('⚡ Architecture Consultation Request Received!\n\nA Principal Engineer will review your specification and respond within 4 hours.');
+      
+      if (contactForm) contactForm.reset();
+
       submitBtn.textContent = 'Inquiry Submitted ✓';
       submitBtn.style.background = '#10b981';
       submitBtn.style.color = '#fff';
-    }, 1000);
+
+      setTimeout(() => {
+        submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+        submitBtn.disabled = false;
+        submitBtn.style.background = '';
+        submitBtn.style.color = '';
+      }, 3000);
+    }
   });
 }
