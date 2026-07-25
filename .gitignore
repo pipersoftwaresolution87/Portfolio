@@ -18,3 +18,9 @@ firebase_key.json
 node_modules/
 dist/
 .venv/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
