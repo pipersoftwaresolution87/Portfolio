@@ -166,6 +166,34 @@ function initApiSandbox() {
         "firestore_sync": "SUCCESS"
       }
     },
+    loadtest_run: {
+      method: 'POST',
+      url: 'https://loadtesting.pipersoftwaresolution87.workers.dev/api/v1/load-tests',
+      body: '{\n  "target_url": "https://api.pipersoftware.io/v1/system/health",\n  "virtual_users": 500,\n  "duration_seconds": 30,\n  "sla_threshold_p95_ms": 250\n}',
+      response: {
+        "test_id": "lt_run_884920",
+        "status": "COMPLETED",
+        "target_url": "https://api.pipersoftware.io/v1/system/health",
+        "virtual_users": 500,
+        "duration_seconds": 30,
+        "total_requests": 14520,
+        "successful_requests": 14520,
+        "failed_requests": 0,
+        "rps": 484.0,
+        "latency_percentiles_ms": {
+          "p50": 14.2,
+          "p90": 38.6,
+          "p95": 45.1,
+          "p99": 89.4
+        },
+        "sla_verification": {
+          "passed": true,
+          "threshold_p95_ms": 250,
+          "actual_p95_ms": 45.1
+        },
+        "pydantic_validation": "PASSED (ge=1, le=5000)"
+      }
+    },
     health: {
       method: 'GET',
       url: 'https://api.pipersoftware.io/v1/system/health',
@@ -264,8 +292,9 @@ function initTerminalCli() {
 Available Piper CLI Commands:
   <span style="color:#fff;">services</span>       - List core backend & cloud capabilities
   <span style="color:#fff;">stack</span>          - View enterprise tech stack matrix
-  <span style="color:#fff;">portfolio</span>      - View featured GeoTask open-source repository
+  <span style="color:#fff;">portfolio</span>      - View featured case studies & repositories
   <span style="color:#fff;">location-todo</span>  - Technical analysis & Haversine math for GeoTask
+  <span style="color:#fff;">loadtest</span>       - Technical spec & SLA concepts for Load Testing API
   <span style="color:#fff;">audit</span>          - Request direct technical architecture review
   <span style="color:#fff;">clear</span>          - Clear terminal window
   <span style="color:#fff;">exit</span>           - Close terminal interface
@@ -275,31 +304,35 @@ Available Piper CLI Commands:
         case 'services':
           appendLine(`
 <span style="color:var(--accent-green);">PIPER SOFTWARE SOLUTIONS LLC - CORE CAPABILITIES:</span>
-1. High-Concurrency API Design (Go, Rust, Python FastAPI, Node)
-2. Cloud Infrastructure & Kubernetes Mesh (AWS, GCP, Terraform)
+1. High-Concurrency API & Load Testing Design (FastAPI, httpx, asyncio, uvloop)
+2. Cloud Infrastructure & Kubernetes Mesh (AWS, GCP, Cloudflare Workers, Terraform)
 3. Cloud Cost & Billing Optimization (Avg 60% Reduction)
-4. Spatial & Realtime Telemetry Engines (Geofencing, Firestore, Haversine Math)
-5. Database Sharding & High Availability (Postgres, Redis)
+4. Spatial & Realtime Telemetry Engines (Geofencing, WebSockets, Redis Streams)
+5. Database Sharding & High Availability (Postgres, Redis, Firestore)
           `);
           break;
 
         case 'stack':
           appendLine(`
 <span style="color:var(--accent-green);">ENTERPRISE TECH STACK:</span>
-- Backend: Python FastAPI, Go, Rust, Node.js
-- Databases: PostgreSQL, Redis, Firestore, ClickHouse
-- Cloud: AWS, GCP, Kubernetes (EKS/GKE), Terraform
-- Streaming: Apache Kafka, NATS, Redis Streams
+- Backend: Python FastAPI, Go, Rust, Node.js, httpx, asyncio, uvloop
+- Databases: PostgreSQL, Redis, Firestore, SQLite
+- Cloud: AWS, Cloudflare Workers, GCP, Kubernetes (EKS/GKE), Terraform
+- Streaming & Queues: WebSockets, Redis + ARQ, Apache Kafka
           `);
           break;
 
         case 'portfolio':
         case 'case-studies':
           appendLine(`
-<span style="color:var(--accent-green);">FEATURED REPOSITORY:</span>
+<span style="color:var(--accent-green);">FEATURED REPOSITORIES & APPS:</span>
 [1] GeoTask: Location-Based TODO & Spatial Geofence Engine
     Repo: https://github.com/fenil09/Location_TODO
     Stack: Python FastAPI + Firebase Firestore + Haversine Math + Leaflet.js
+
+[2] Load Testing API: High-Concurrency Performance & SLA Engine
+    Live: https://loadtesting.pipersoftwaresolution87.workers.dev/
+    Stack: Python FastAPI + httpx + asyncio + uvloop + Redis + ARQ + Pydantic (ge/le)
           `);
           break;
 
@@ -313,6 +346,20 @@ Available Piper CLI Commands:
 - Math Engine: Haversine Great-Circle Distance (EARTH_RADIUS = 6,371,000 meters)
 - Key Endpoint: GET /api/todos/nearby?lat={lat}&lng={lng} (returns distance_meters & is_inside)
 - Frontend GIS: Leaflet.js map layer, continuous GPS watchPosition, Web Audio API alerts
+          `);
+          break;
+
+        case 'loadtest':
+        case 'loadtesting':
+        case 'load-api':
+          appendLine(`
+<span style="color:var(--accent-green);">TECHNICAL SPECIFICATION: Load Testing API</span>
+- Live App: https://loadtesting.pipersoftwaresolution87.workers.dev/
+- Core Engine: Python FastAPI + httpx + asyncio + uvloop (Non-blocking Virtual User simulation)
+- Task Queue: Redis + ARQ async background worker job execution
+- Input Guardrails: Pydantic Field validation (virtual_users: ge=1, le=5000, duration: ge=1, le=3600)
+- Percentile Math: NumPy array quantile algorithms tracking p50, p90, p95, p99 latency
+- Key Business Cases: Black Friday checkout traffic simulation, CI/CD automated SLA pipeline tests (p95 > 250ms), enterprise SLA reporting
           `);
           break;
 

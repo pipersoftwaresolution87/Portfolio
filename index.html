@@ -240,7 +240,7 @@
       <p class="section-subtitle">Explore featured backend architectures, real-time spatial engines, and open-source repositories built by Piper Software Solutions LLC.</p>
 
       <div class="portfolio-grid" style="grid-template-columns:1fr;">
-        <!-- Flagship Featured Project: Location-based TODO App (GeoTask) -->
+        <!-- Flagship Featured Project 1: Location-based TODO App (GeoTask) -->
         <div class="portfolio-card featured">
           <div class="portfolio-img-wrapper">
             <span class="portfolio-badge">Featured Open-Source Repository</span>
@@ -292,6 +292,75 @@
               <div class="metric-item">
                 <span class="metric-num">100%</span>
                 <span class="metric-lbl">Async FastAPI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Project 2: Load Testing API Engine -->
+        <div class="portfolio-card featured">
+          <div class="portfolio-img-wrapper">
+            <span class="portfolio-badge">Live Production API & Dashboard</span>
+            <img src="assets/load_generator.png" alt="Load Testing API Dashboard & Real-Time Performance Telemetry">
+          </div>
+          <div class="portfolio-content">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:8px;">
+                <h3 class="portfolio-title" style="margin-bottom:0;">Load Testing API: High-Concurrency Performance & SLA Engine</h3>
+                <a href="https://loadtesting.pipersoftwaresolution87.workers.dev/" target="_blank" class="btn btn-primary" style="padding:6px 16px; font-size:0.85rem; font-family:var(--font-mono);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  Live Hosted App
+                </a>
+              </div>
+
+              <p class="portfolio-desc">
+                High-scale distributed load testing platform designed to programmatically simulate massive Virtual User (VU) traffic against target servers to measure real-time <strong>Requests Per Second (RPS)</strong> and exact <strong>latency percentiles (p50, p90, p95, p99)</strong> before high-stakes commercial events.
+              </p>
+
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
+                <div style="background:var(--bg-input); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border-light);">
+                  <strong style="color:var(--accent-cyan); font-family:var(--font-mono); font-size:0.85rem; display:block; margin-bottom:6px;">🚀 Business Applications & Use Cases:</strong>
+                  <ul style="color:var(--text-muted); font-size:0.84rem; padding-left:16px; line-height:1.5;">
+                    <li><strong>Black Friday Sales Prep</strong>: Simulates 50,000+ shoppers hitting checkout simultaneously to eliminate backend locks and memory leaks prior to launch.</li>
+                    <li><strong>Automated CI/CD Testing</strong>: Triggers automated load tests in deployment pipelines, automatically failing builds if p95 latency exceeds SLA thresholds (`p95 > 250ms`).</li>
+                    <li><strong>Enterprise SLA Benchmarking</strong>: Generates official SLA verification reports to prove 99.9% uptime compliance for SaaS client contracts.</li>
+                  </ul>
+                </div>
+
+                <div style="background:var(--bg-input); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border-light);">
+                  <strong style="color:var(--accent-green); font-family:var(--font-mono); font-size:0.85rem; display:block; margin-bottom:6px;">🛠️ Key Technical Architecture:</strong>
+                  <ul style="color:var(--text-muted); font-size:0.84rem; padding-left:16px; line-height:1.5;">
+                    <li><strong>FastAPI & Async Core</strong>: Built with `Python FastAPI`, `httpx`, `asyncio`, and `uvloop` for high-performance non-blocking Virtual User simulation.</li>
+                    <li><strong>Task Queue & Telemetry</strong>: Redis + ARQ task queues for background load generation and WebSockets for real-time telemetry streaming.</li>
+                    <li><strong>Pydantic Boundaries (`ge`/`le`)</strong>: Enforces schema guardrails (`virtual_users`: `ge=1, le=5000`, `duration_seconds`: `ge=1, le=3600`) returning HTTP 422 before execution.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="portfolio-tags">
+                <span class="tag">Python FastAPI</span>
+                <span class="tag">httpx + asyncio</span>
+                <span class="tag">uvloop</span>
+                <span class="tag">Redis + ARQ</span>
+                <span class="tag">WebSockets</span>
+                <span class="tag">NumPy Math</span>
+                <span class="tag">Pydantic Validation (ge/le)</span>
+                <span class="tag">Cloudflare Workers</span>
+              </div>
+            </div>
+
+            <div class="portfolio-metrics">
+              <div class="metric-item">
+                <span class="metric-num">5,000 VUs</span>
+                <span class="metric-lbl">Peak Concurrency</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-num">p50..p99</span>
+                <span class="metric-lbl">Latency Engine</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-num">HTTP 422</span>
+                <span class="metric-lbl">Pydantic Guardrails</span>
               </div>
             </div>
           </div>
@@ -453,6 +522,7 @@
               <select id="endpointSelect" style="background:var(--bg-input); color:#fff; border:1px solid var(--border-light); border-radius:4px; padding:2px 8px;">
                 <option value="geotask_nearby">GET /api/todos/nearby (GeoTask Proximity)</option>
                 <option value="geotask_create">POST /api/todos (Create Task & Geofence)</option>
+                <option value="loadtest_run">POST /api/v1/load-tests (Load Testing API)</option>
                 <option value="health">GET /v1/system/health (Cluster Health)</option>
               </select>
             </div>
