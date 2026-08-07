@@ -4,36 +4,13 @@
 */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initHeroTelemetry();
   initTechStackFilter();
-  initCloudCalculator();
   initApiSandbox();
   initTerminalCli();
   initContactForm();
 });
 
-/* ----------------------------------------------------
-   1. HERO TELEMETRY TICKER
----------------------------------------------------- */
-function initHeroTelemetry() {
-  const rpsEl = document.getElementById('heroGatewayRps');
-  const spatialLatencyEl = document.getElementById('heroSpatialLatency');
-  const cacheHitEl = document.getElementById('heroCacheHit');
-  const podCountEl = document.getElementById('heroPodCount');
 
-  if (!rpsEl) return;
-
-  setInterval(() => {
-    // Subtle jitter to simulate live enterprise telemetry
-    const baseRps = 42800 + Math.floor(Math.random() * 450);
-    const latency = (7.8 + Math.random() * 1.4).toFixed(1);
-    const hitRatio = (99.1 + Math.random() * 0.5).toFixed(1);
-
-    rpsEl.textContent = `${baseRps.toLocaleString()} req/s`;
-    spatialLatencyEl.textContent = `${latency} ms`;
-    cacheHitEl.textContent = `${hitRatio}% Hit Ratio`;
-  }, 2000);
-}
 
 /* ----------------------------------------------------
    2. INTERACTIVE TECH STACK MATRIX FILTER
@@ -65,41 +42,7 @@ function initTechStackFilter() {
   });
 }
 
-/* ----------------------------------------------------
-   3. CLOUD ROI & SAVINGS CALCULATOR
----------------------------------------------------- */
-function initCloudCalculator() {
-  const mauSlider = document.getElementById('mauSlider');
-  const reqSlider = document.getElementById('reqSlider');
-  const storageSlider = document.getElementById('storageSlider');
 
-  if (!mauSlider) return;
-
-  function updateCalc() {
-    const mau = parseInt(mauSlider.value, 10);
-    const req = parseInt(reqSlider.value, 10);
-    const storage = parseInt(storageSlider.value, 10);
-
-    document.getElementById('mauVal').textContent = `${mau.toLocaleString()} Users`;
-    document.getElementById('reqVal').textContent = `${(req / 1000000).toFixed(1)}M Req/Day`;
-    document.getElementById('storageVal').textContent = `${storage >= 1000 ? (storage / 1000).toFixed(1) + ' TB' : storage + ' GB'}`;
-
-    const baseUnoptimized = (mau / 1000 * 15) + (req / 1000000 * 320) + (storage * 0.12);
-    const optimized = baseUnoptimized * 0.40;
-    const monthlySavings = baseUnoptimized - optimized;
-    const annualSavings = monthlySavings * 12;
-
-    document.getElementById('unoptimizedMonthly').textContent = `$${Math.round(baseUnoptimized).toLocaleString()} / mo`;
-    document.getElementById('optimizedMonthly').textContent = `$${Math.round(optimized).toLocaleString()} / mo`;
-    document.getElementById('annualSavings').textContent = `$${Math.round(annualSavings).toLocaleString()} / yr`;
-  }
-
-  mauSlider.addEventListener('input', updateCalc);
-  reqSlider.addEventListener('input', updateCalc);
-  storageSlider.addEventListener('input', updateCalc);
-
-  updateCalc();
-}
 
 /* ----------------------------------------------------
    4. INTERACTIVE API SANDBOX
@@ -291,11 +234,11 @@ function initTerminalCli() {
           appendLine(`
 Available Piper CLI Commands:
   <span style="color:#fff;">services</span>       - List core backend & cloud capabilities
-  <span style="color:#fff;">stack</span>          - View enterprise tech stack matrix
+  <span style="color:#fff;">stack</span>          - View backend tech stack matrix
   <span style="color:#fff;">portfolio</span>      - View featured case studies & repositories
   <span style="color:#fff;">location-todo</span>  - Technical analysis & Haversine math for GeoTask
-  <span style="color:#fff;">loadtest</span>       - Technical spec & SLA concepts for Load Testing API
-  <span style="color:#fff;">audit</span>          - Request direct technical architecture review
+  <span style="color:#fff;">loadtest</span>       - Technical spec & benchmarking for Load Testing API
+  <span style="color:#fff;">audit</span>          - Request direct technical review
   <span style="color:#fff;">clear</span>          - Clear terminal window
   <span style="color:#fff;">exit</span>           - Close terminal interface
           `);
@@ -305,16 +248,16 @@ Available Piper CLI Commands:
           appendLine(`
 <span style="color:var(--accent-green);">PIPER SOFTWARE SOLUTIONS LLC - CORE CAPABILITIES:</span>
 1. High-Concurrency API & Load Testing Design (FastAPI, httpx, asyncio, uvloop)
-2. Cloud Infrastructure & Kubernetes Mesh (AWS, GCP, Cloudflare Workers, Terraform)
-3. Cloud Cost & Billing Optimization (Avg 60% Reduction)
+2. Cloud Infrastructure & Kubernetes (AWS, GCP, Cloudflare Workers, Terraform)
+3. Cloud Cost Optimization & Right-Sizing
 4. Spatial & Realtime Telemetry Engines (Geofencing, WebSockets, Redis Streams)
-5. Database Sharding & High Availability (Postgres, Redis, Firestore)
+5. Database Tuning & High Availability (Postgres, Redis, Firestore)
           `);
           break;
 
         case 'stack':
           appendLine(`
-<span style="color:var(--accent-green);">ENTERPRISE TECH STACK:</span>
+<span style="color:var(--accent-green);">BACKEND TECH STACK:</span>
 - Backend: Python FastAPI, Go, Rust, Node.js, httpx, asyncio, uvloop
 - Databases: PostgreSQL, Redis, Firestore, SQLite
 - Cloud: AWS, Cloudflare Workers, GCP, Kubernetes (EKS/GKE), Terraform
@@ -330,7 +273,7 @@ Available Piper CLI Commands:
     Repo: https://github.com/fenil09/Location_TODO
     Stack: Python FastAPI + Firebase Firestore + Haversine Math + Leaflet.js
 
-[2] Load Testing API: High-Concurrency Performance & SLA Engine
+[2] Load Testing API: High-Concurrency Performance Engine
     Live: https://loadtesting.pipersoftwaresolution87.workers.dev/
     Stack: Python FastAPI + httpx + asyncio + uvloop + Redis + ARQ + Pydantic (ge/le)
           `);
@@ -359,7 +302,7 @@ Available Piper CLI Commands:
 - Task Queue: Redis + ARQ async background worker job execution
 - Input Guardrails: Pydantic Field validation (virtual_users: ge=1, le=5000, duration: ge=1, le=3600)
 - Percentile Math: NumPy array quantile algorithms tracking p50, p90, p95, p99 latency
-- Key Business Cases: Black Friday checkout traffic simulation, CI/CD automated SLA pipeline tests (p95 > 250ms), enterprise SLA reporting
+- Key Business Cases: Traffic spike simulation, CI/CD automated pipeline load tests (p95 > 250ms), latency benchmarking
           `);
           break;
 
@@ -445,7 +388,7 @@ function initContactForm() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        alert('⚡ Architecture Consultation Request Received!\n\nA Principal Engineer from Piper Software Solutions LLC (pipersoftwaresolution87@gmail.com) will review your specification and respond within 4 hours.');
+        alert('⚡ Technical Consultation Request Received!\n\nFounder & Backend Engineer Fenil (pipersoftwaresolution87@gmail.com) will review your inquiry and get back to you promptly.');
         
         // Empty all form fields
         if (contactForm) contactForm.reset();
@@ -455,19 +398,19 @@ function initContactForm() {
         submitBtn.style.color = '#fff';
 
         setTimeout(() => {
-          submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+          submitBtn.textContent = 'Submit Technical Inquiry 🚀';
           submitBtn.disabled = false;
           submitBtn.style.background = '';
           submitBtn.style.color = '';
         }, 3000);
       } else {
         alert(`Notice: ${data.message || 'Could not submit inquiry'}`);
-        submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+        submitBtn.textContent = 'Submit Technical Inquiry 🚀';
         submitBtn.disabled = false;
       }
     } catch (err) {
       console.error('Error submitting form:', err);
-      alert('⚡ Architecture Consultation Request Received!\n\nA Principal Engineer will review your specification and respond within 4 hours.');
+      alert('⚡ Technical Consultation Request Received!\n\nFounder & Backend Engineer Fenil will review your inquiry and get back to you promptly.');
       
       if (contactForm) contactForm.reset();
 
@@ -476,7 +419,7 @@ function initContactForm() {
       submitBtn.style.color = '#fff';
 
       setTimeout(() => {
-        submitBtn.textContent = 'Submit Architecture Inquiry 🚀';
+        submitBtn.textContent = 'Submit Technical Inquiry 🚀';
         submitBtn.disabled = false;
         submitBtn.style.background = '';
         submitBtn.style.color = '';

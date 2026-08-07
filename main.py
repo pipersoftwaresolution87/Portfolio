@@ -25,7 +25,7 @@ async def posttofirestore(userquery: UserQuery):
         user_dict = userquery.model_dump()
         saved_query = createuserinquiry(user_dict)
         return {
-            "message": "Thank you for your inquiry! We will get back to you soon.",
+            "message": "Thank you for your inquiry! I will get back to you soon.",
             "status": "success",
             "id": saved_query.get("id")
         }
